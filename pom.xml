@@ -157,28 +157,8 @@
 					</configuration>
 				</plugin>		
 
-				<!-- create the jar file -->
-				<!--
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-jar-plugin</artifactId>
-					<configuration>
-						<archive>
-							<manifest>
-								<addClasspath>true</addClasspath>
-								<classpathPrefix>lib/</classpathPrefix>
-								<mainClass>org.nachc.cad.tools.ponos.main.PonosMain</mainClass>
-							</manifest>
-							<manifestEntries>
-								<Class-Path>.</Class-Path>
-							</manifestEntries>
-						</archive>
-						<finalName>ponos/ponos</finalName>
-					</configuration>
-				</plugin>
-				-->
 
-				<!-- include dependencies in the jar -->
+				<!-- create the jar file and include dependencies in the jar -->
             <plugin>
                  <artifactId>maven-assembly-plugin</artifactId>
                  <executions>
