@@ -40,28 +40,9 @@ public class PonosMain {
 			log.info("Getting config file...");
 			File file = new File("./auth/app-databricks.properties");
 			if(file.exists()) {
-				log.info("Got ./auth/app-databricks.properties");
-				String configFileName = FileUtil.getAsString(file);
-				if(configFileName != null) {
-					log.info("Got config file: " + configFileName);
-					File configFile = new File(configFileName);
-					configFile = new File("./auth/app-databricks.properties");
-					log.info("CONFIG FILE: " + configFile);
-					boolean exists = configFile.exists();
-					if(exists == true) {
-						FileInputStream is = new FileInputStream(configFile);
-						DatabricksProperties.setProps(is);
-						log.info("CONFIG FILE SUCCESSFULY SET");
-					} else {
-						log.info("Could not find config file...");
-						log.info(configFile + "");
-						log.info(configFile.getClass() + "");
-						log.info(configFile.getName());
-						String msg = "COULD NOT FIND CONFIG FILE: " + FileUtil.getCanonicalPath(configFile);
-						log.error(msg);
-						throw new RuntimeException(msg);
-					}
-				}
+				FileInputStream is = new FileInputStream(file);
+				DatabricksProperties.setProps(is);
+				log.info("CONFIG FILE SUCCESSFULY SET");
 			} else {
 				String msg = "Could not find file: " + FileUtil.getCanonicalPath(file);
 				log.info(msg);
