@@ -2,10 +2,12 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
+	<!-- basic information -->
+
 	<modelVersion>4.0.0</modelVersion>
 
 	<properties>
-		<version>0.0.001</version>
+		<version>1.0.001</version>
 	</properties>
 
 	<groupId>org.nachc.cad.tools</groupId>
@@ -143,11 +145,22 @@
 	<!-- build -->
 
 	<build>
-
+		<!-- resources -->
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<includes>
+					<include>**/*.*</include>
+				</includes>
+				<excludes>
+					<exclude>auth/**/*.*</exclude>
+				</excludes>
+			</resource>
+		</resources>
+		<!-- plugins -->
 		<pluginManagement>
 			<plugins>
-
-				<!-- compiler -->
+				<!-- compile -->
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-compiler-plugin</artifactId>
@@ -156,48 +169,69 @@
 						<release>11</release>
 					</configuration>
 				</plugin>		
-
-
 				<!-- create the jar file and include dependencies in the jar -->
-            <plugin>
-                 <artifactId>maven-assembly-plugin</artifactId>
-                 <executions>
-                     <execution>
-                          <phase>package</phase>
-                          <goals>
-                              <goal>single</goal>
-                          </goals>
-                      </execution>
-                  </executions>
-                  <configuration>
-                       <!-- ... -->
-                       <archive>
-                           <manifest>
-                                 <mainClass>org.nachc.cad.tools.ponos.main.PonosMain</mainClass>
-                           </manifest>
-                       </archive>
-                       <descriptorRefs>
-                           <descriptorRef>jar-with-dependencies</descriptorRef>
-                      </descriptorRefs>
-                 </configuration>
-         </plugin>
-
+				<plugin>
+					<artifactId>maven-assembly-plugin</artifactId>
+					<executions>
+						<execution>
+							<phase>package</phase>
+							<goals>
+								<goal>single</goal>
+							</goals>
+						</execution>
+					</executions>
+					<configuration>
+						<archive>
+							<manifest>
+							<mainClass>org.nachc.cad.tools.ponos.main.PonosMain</mainClass>
+							</manifest>
+						</archive>
+						<descriptorRefs>
+							<descriptorRef>jar-with-dependencies</descriptorRef>
+						</descriptorRefs>
+						<finalName>ponos/ponos-${version}</finalName> 
+						<appendAssemblyId>false</appendAssemblyId>
+					</configuration>
+				</plugin>
 			</plugins>
 		</pluginManagement>
-
+		
 		<plugins>
-
-		<!-- don't run the integration tests -->
-		<plugin>
-			<groupId>org.apache.maven.plugins</groupId>
-			<artifactId>maven-surefire-plugin</artifactId>
-			<version>3.0.0-M5</version>
-			<configuration>
-				<skipTests>true</skipTests>
-			</configuration>
-		</plugin>
-
+			<!-- copy the bat file and the app.properties example file -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>1.8</version>
+				<executions>
+					<execution>
+						<phase>test</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<tasks>
+								<echo>Copying files</echo>
+								<!--
+								<copy file="${basedir}/src/main/resources/main/bat/fhir-to-omop.bat" tofile="${basedir}/target/fhir-to-omop/fhir-to-omop.bat" />
+								-->
+								<copy file="${basedir}/src/main/resources/main/app.properties" tofile="${basedir}/target/ponos/auth/app.properties" />
+							</tasks>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- don't run the integration tests -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>3.0.0-M5</version>
+				<configuration>
+					<skipTests>true</skipTests>
+				</configuration>
+			</plugin>
 		</plugins>
+		
+		
 	</build>
 
 </project>

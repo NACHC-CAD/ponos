@@ -12,17 +12,18 @@ public class PonosMain {
 	public static void main(String[] args) {
 		if (args.length == 0) {
 			System.out.println(getNoArgsMsg());
-		}
-		switch (args[0]) {
-		case "db-params":
-			new TestDatabricksProperties();
-			break;
-		case "db-demo":
-			CreateDemoCdmInstance.main(args);
-			break;
-		case "db-init":
-			ConnectDatabricksCdmToOhdsi.main(args);
-			break;
+		} else {
+			switch (args[0]) {
+			case "db-params":
+				new TestDatabricksProperties();
+				break;
+			case "db-demo":
+				CreateDemoCdmInstance.main(args);
+				break;
+			case "db-init":
+				ConnectDatabricksCdmToOhdsi.main(args);
+				break;
+			}
 		}
 	}
 
