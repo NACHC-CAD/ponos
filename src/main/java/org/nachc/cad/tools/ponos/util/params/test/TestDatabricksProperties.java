@@ -48,6 +48,7 @@ public class TestDatabricksProperties {
 	//
 	
 	public TestDatabricksProperties() {
+		/*
 		this.configPath = DatabricksProperties.getConfigPath();
 		this.configFile = DatabricksProperties.getPropsFile();
 		initConfigFileName();
@@ -75,6 +76,7 @@ public class TestDatabricksProperties {
 		msg += "Config File Exists: " + this.configFileExists() + "\n";
 		msg += "---------\n\n";
 		log.info(msg);
+		*/
 	}
 
 	//

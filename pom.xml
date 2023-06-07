@@ -68,7 +68,7 @@
 		<dependency>
 			<groupId>org.nachc.cad.tools</groupId>
 			<artifactId>fhirtoomop</artifactId>
-			<version>1.4.005</version>
+			<version>1.4.007</version>
 		</dependency>
 
 		<!-- BASIC TOOLS -->
@@ -214,7 +214,7 @@
 								<!--
 								<copy file="${basedir}/src/main/resources/main/bat/fhir-to-omop.bat" tofile="${basedir}/target/fhir-to-omop/fhir-to-omop.bat" />
 								-->
-								<copy file="${basedir}/src/main/resources/main/app.properties" tofile="${basedir}/target/ponos/auth/app.properties" />
+								<copy file="${basedir}/src/main/resources/main/app-databricks.properties" tofile="${basedir}/target/ponos/auth/app-databricks.properties" />
 							</tasks>
 						</configuration>
 					</execution>
