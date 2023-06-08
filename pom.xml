@@ -1,0 +1,240 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<!-- basic information -->
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<properties>
+		<version>1.0.001</version>
+	</properties>
+
+	<groupId>org.nachc.cad.tools</groupId>
+	<artifactId>ponos</artifactId>
+	<version>${version}</version>
+
+	<packaging>jar</packaging>
+
+	<name>Ponos</name>
+	<description>Tools and utilities for the automated build of OHDSI instances.</description>
+	<url>https://github.com/NACHC-CAD/ponos</url>
+
+	<licenses>
+		<license>
+			<name>Apache License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
+	<developers>
+		<developer>
+			<name>John Gresh</name>
+			<email>johngresh@curlewconsulting.com</email>
+			<organization>NACHC</organization>
+			<organizationUrl>https.www.nachc.org</organizationUrl>
+		</developer>
+	</developers>
+
+	<scm>
+		<connection>scm:git:git://github.com/NACHC-CAD/ponos</connection>
+		<developerConnection>scm:git:ssh://github.com:NACHC-CAD/ponos</developerConnection>
+		<url>http://github.com/NACHC-CAD/ponos/tree/master</url>
+	</scm>  
+  
+	<distributionManagement>
+	  <snapshotRepository>
+	    <id>ossrh</id>
+	    <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
+	  </snapshotRepository>
+	</distributionManagement>
+
+	<!-- repositories -->
+	
+	<repositories>
+		<repository>
+			<id>bedatadriven</id>
+			<name>bedatadriven</name>
+			<url>https://nexus.bedatadriven.com/content/groups/public/</url>
+		</repository>
+	</repositories>
+
+	<!-- dependencies -->
+
+	<dependencies>
+
+		<!-- CORE NACHC FRAMEWORK STUFF -->
+		<dependency>
+			<groupId>org.nachc.cad.tools</groupId>
+			<artifactId>fhirtoomop</artifactId>
+			<version>1.4.008</version>
+		</dependency>
+
+		<!-- BASIC TOOLS -->
+
+		<!-- LOMBOK (Lombok jar also needs to be added to Eclipse IDE) -->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.8</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- SLF4J LOGBACK CLASSIC https://mvnrepository.com/artifact/ch.qos.logback/logback-classic -->
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>1.2.3</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.7.30</version>
+		</dependency>
+
+		<!-- JUNIT https://mvnrepository.com/artifact/junit/junit -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- JUNIT-TOOLBOX https://mvnrepository.com/artifact/com.googlecode.junit-toolbox/junit-toolbox -->
+		<dependency>
+			<groupId>com.googlecode.junit-toolbox</groupId>
+			<artifactId>junit-toolbox</artifactId>
+			<version>2.4</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!--
+		*
+		* DATABASE DRIVERS
+		*
+		-->
+		
+		<!-- MS SQL SERVER DRIVER https://mvnrepository.com/artifact/com.microsoft.sqlserver/mssql-jdbc -->
+		<dependency>
+			<groupId>com.microsoft.sqlserver</groupId>
+			<artifactId>mssql-jdbc</artifactId>
+			<version>11.2.0.jre11</version>
+		</dependency>
+
+		<!-- POSTGRESQL DRIVER https://mvnrepository.com/artifact/org.postgresql/postgresql -->
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>42.3.6</version>
+		</dependency>
+
+		<!-- Databricks JDBC Driver -->
+		<dependency>
+		    <groupId>com.databricks</groupId>
+		    <artifactId>jdbc</artifactId>
+		    <version>1.0</version>
+		    <scope>system</scope>
+		    <systemPath>${project.basedir}/lib/SimbaSparkJDBC42-2.6.16.1020/SparkJDBC42.jar</systemPath>
+		</dependency>
+
+	</dependencies>
+
+	<!-- build -->
+
+	<build>
+		<!-- resources -->
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<includes>
+					<include>**/*.*</include>
+				</includes>
+				<excludes>
+					<exclude>auth/**/*.*</exclude>
+				</excludes>
+			</resource>
+		</resources>
+		<!-- plugins -->
+		<pluginManagement>
+			<plugins>
+				<!-- compile -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>3.8.0</version>
+					<configuration>
+						<release>11</release>
+					</configuration>
+				</plugin>		
+				<!-- create the jar file and include dependencies in the jar -->
+				<plugin>
+					<artifactId>maven-assembly-plugin</artifactId>
+					<executions>
+						<execution>
+							<phase>package</phase>
+							<goals>
+								<goal>single</goal>
+							</goals>
+						</execution>
+					</executions>
+					<configuration>
+						<archive>
+							<manifest>
+							<mainClass>org.nachc.cad.tools.ponos.main.PonosMain</mainClass>
+							</manifest>
+						</archive>
+						<descriptorRefs>
+							<descriptorRef>jar-with-dependencies</descriptorRef>
+						</descriptorRefs>
+						<finalName>ponos/ponos</finalName> 
+						<appendAssemblyId>false</appendAssemblyId>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+		
+		<plugins>
+			<!-- copy the bat file and the app.properties example file -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>1.8</version>
+				<executions>
+					<execution>
+						<phase>test</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<tasks>
+								<!-- copy files -->
+								<echo>Copying files</echo>
+								<!-- bat file and config file -->
+								<copy file="${basedir}/src/main/resources/main/run-ponos.bat" tofile="${basedir}/target/ponos/run-ponos.bat" />
+								<copy file="${basedir}/src/main/resources/main/app-databricks.properties" tofile="${basedir}/target/ponos/auth/app-databricks.properties" />
+								<!-- database drivers -->
+								<copy file="${basedir}/lib/postgres/postgresql-42.3.6.jar" tofile="${basedir}/target/ponos/lib/postgresql-42.3.6.jar" />
+								<copy file="${basedir}/lib/SimbaSparkJDBC42-2.6.16.1020/SparkJDBC42.jar" tofile="${basedir}/target/ponos/lib/SparkJDBC42.jar" />
+							</tasks>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- don't run the integration tests -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>3.0.0-M5</version>
+				<configuration>
+					<skipTests>true</skipTests>
+				</configuration>
+			</plugin>
+		</plugins>
+		
+	</build>
+
+</project>
+
