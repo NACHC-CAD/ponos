@@ -2,8 +2,11 @@ package org.nachc.cad.tools.ponos.util.params.test;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
+import org.apache.commons.collections.ListUtils;
+import org.apache.commons.lang.StringUtils;
 import org.nachc.tools.fhirtoomop.util.databricks.properties.DatabricksProperties;
 
 import com.nach.core.util.file.FileUtil;
@@ -13,12 +16,12 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class TestDatabricksProperties {
 
+	private static final String POINTER_FILE_NAME = "./auth/app-databricks.properties";
+	
 	//
 	// instance variables
 	//
 	
-	private String configPath;
-
 	private File configFile;
 
 	private String configFileName;
@@ -48,15 +51,11 @@ public class TestDatabricksProperties {
 	//
 	
 	public TestDatabricksProperties() {
-		/*
-		this.configPath = DatabricksProperties.getConfigPath();
+		checkPointerFile();
 		this.configFile = DatabricksProperties.getPropsFile();
-		initConfigFileName();
-		if(configPath == null) {
-			errorMessages.add("configPath is not defined by DatabricksProperties.getConfigPath(). This should never happen and indicates a problem with the DatabricksProperties class");
-		}
+		this.configFileName = FileUtil.getCanonicalPath(configFile);
 		if(configFileName == null) {
-			errorMessages.add("Could not get config file: You need to add this file to your java classpath: " + configPath);
+			errorMessages.add("Could not get config file: You need to add this file to your java classpath: " + POINTER_FILE_NAME);
 		}
 		if(configFile == null) {
 			errorMessages.add("Could not file file: " + configFileName);
@@ -70,36 +69,61 @@ public class TestDatabricksProperties {
 		String msg = "\n\n";
 		msg += "---------\n";
 		msg += "Databricks Configuration: \n";
-		msg += "Config Path:        " + configPath + "\n";
 		msg += "Config File Name:   " + configFileName + "\n";
 		msg += "Config File Path:   " + FileUtil.getCanonicalPath(configFile) + "\n";
 		msg += "Config File Exists: " + this.configFileExists() + "\n";
 		msg += "---------\n\n";
 		log.info(msg);
-		*/
+		showConfigFile();
+		showConfigValues();
 	}
 
-	//
-	// method to get the config file name
-	//
-	
-	private void initConfigFileName() {
-		try {
-			if (this.configPath != null) {
-				this.configFileName = FileUtil.getAsString(configPath);
-				if (this.configFileName != null) {
-					this.configFileName = this.configFileName.trim();
-				}
-			} else {
-				log.info("configPath is null");
+	private void checkPointerFile() {
+		try  {
+			String configFileName = FileUtil.getAsString(POINTER_FILE_NAME);
+			if(configFileName == null) {
+				throw new RuntimeException("file not found");
 			}
-		} catch (Exception exp) {
-			String msg = "Could not find file on java classpath: " + configPath;
+			configFileName = configFileName.trim();
+			log.info("Found pointer file: " + POINTER_FILE_NAME);
+			log.info("Pointer file points to config file: \n" + configFileName);
+		} catch(Exception exp) {
+			String msg = "Could not find init file: " + POINTER_FILE_NAME;
+			log.error(msg);
 			this.errorMessages.add(msg);
-			log.info(msg);
-			this.configFileName = null;
-			this.configFileName = null;
 		}
 	}
+	
+	private void showConfigFile() {
+		String str = FileUtil.getAsString(this.configFile);
+		String msg = "\n\n";
+		msg += "---------------------------\n";
+		msg += "START CONFIG FILE CONTENTS\n";
+		msg += "---------------------------\n";
+		msg += "\n";
+		msg += str;
+		msg += "\n";
+		msg += "---------------------------\n";
+		msg += "END CONFIG FILE CONTENTS\n";
+		msg += "---------------------------\n";
+		log.info(msg);
+	}
 
+	private void showConfigValues() {
+		String msg = "\n\n";
+		msg += "---------------------------\n";
+		msg += "START CONFIG VALUES\n";
+		msg += "---------------------------\n";
+		List<String> keys = DatabricksProperties.getKeys();
+		Collections.sort(keys);
+		for(String key : keys) {
+			String val = DatabricksProperties.get(key + "");
+			msg += StringUtils.rightPad(key + "",30) + val + "\n";
+		}
+		msg += "---------------------------\n";
+		msg += "END CONFIG VALUES\n";
+		msg += "---------------------------\n";
+		msg += "\n";
+		log.info("Config parameters: " + msg);
+	}
 }
