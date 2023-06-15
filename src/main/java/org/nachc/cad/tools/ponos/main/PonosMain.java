@@ -3,6 +3,7 @@ package org.nachc.cad.tools.ponos.main;
 import java.io.File;
 import java.io.FileInputStream;
 
+import org.nachc.cad.tools.ponos.databricks.broadsea.ConnectDatabricksCdmToOhdsiOnBroadsea;
 import org.nachc.cad.tools.ponos.databricks.connect.ConnectDatabricksCdmToOhdsi;
 import org.nachc.cad.tools.ponos.databricks.demo.CreateDemoCdmInstance;
 import org.nachc.cad.tools.ponos.util.params.test.TestDatabricksProperties;
@@ -29,6 +30,9 @@ public class PonosMain {
 				break;
 			case "db-init":
 				ConnectDatabricksCdmToOhdsi.main(args);
+				break;
+			case "bs-init":
+				ConnectDatabricksCdmToOhdsiOnBroadsea.main(args);
 				break;
 			}
 		}
@@ -60,6 +64,7 @@ public class PonosMain {
 		msg += "  db-params (displays the current parameters settings)\n";
 		msg += "  db-demo   (creates a demo_cdm instance in Databricks)\n";
 		msg += "  db-init   (connects an existing Databricks cdm to OHDSI)\n";
+		msg += "  bs-init   (connects an existing Databricks cdm to OHDSI for a Broadsea implementation)\n";
 		msg += "\n\n";
 		return msg;
 	}

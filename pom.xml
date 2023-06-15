@@ -7,7 +7,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<properties>
-		<version>1.0.002</version>
+		<version>1.0.003</version>
 	</properties>
 
 	<groupId>org.nachc.cad.tools</groupId>
@@ -68,7 +68,7 @@
 		<dependency>
 			<groupId>org.nachc.cad.tools</groupId>
 			<artifactId>fhirtoomop</artifactId>
-			<version>1.4.011</version>
+			<version>1.4.015</version>
 		</dependency>
 
 		<!-- BASIC TOOLS -->
@@ -215,6 +215,7 @@
 								<!-- bat file and config file -->
 								<copy file="${basedir}/src/main/resources/main/run-ponos.bat" tofile="${basedir}/target/ponos/run-ponos.bat" />
 								<copy file="${basedir}/src/main/resources/main/app-databricks.properties" tofile="${basedir}/target/ponos/auth/app-databricks.properties" />
+								<copy file="${basedir}/src/main/resources/main/bs-databricks-public-demo.properties" tofile="${basedir}/target/ponos/auth/bs-databricks-public-demo.properties" />
 								<!-- database drivers -->
 								<copy file="${basedir}/lib/postgres/postgresql-42.3.6.jar" tofile="${basedir}/target/ponos/lib/postgresql-42.3.6.jar" />
 								<copy file="${basedir}/lib/SimbaSparkJDBC42-2.6.16.1020/SparkJDBC42.jar" tofile="${basedir}/target/ponos/lib/SparkJDBC42.jar" />
