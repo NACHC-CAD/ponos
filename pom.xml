@@ -71,6 +71,12 @@
 			<version>1.5.016</version>
 		</dependency>
 
+		<dependency>
+			<groupId>org.nachc.cad.tools</groupId>
+			<artifactId>core</artifactId>
+			<version>1.1.021</version>
+		</dependency>
+
 		<!-- BASIC TOOLS -->
 
 		<!-- LOMBOK (Lombok jar also needs to be added to Eclipse IDE) -->
