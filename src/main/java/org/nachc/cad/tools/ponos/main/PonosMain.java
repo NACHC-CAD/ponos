@@ -6,7 +6,7 @@ import java.io.FileInputStream;
 import org.nachc.cad.tools.ponos.databricks.broadsea.ConnectDatabricksCdmToOhdsiOnBroadsea;
 import org.nachc.cad.tools.ponos.databricks.connect.ConnectDatabricksCdmToOhdsi;
 import org.nachc.cad.tools.ponos.databricks.demo.CreateDemoCdmInstance;
-import org.nachc.cad.tools.ponos.util.params.test.TestDatabricksProperties;
+import org.nachc.tools.fhirtoomop.tools.databricks.test.properties.TestDatabricksProperties;
 import org.nachc.tools.fhirtoomop.util.databricks.properties.DatabricksProperties;
 
 import com.nach.core.util.file.FileUtil;
